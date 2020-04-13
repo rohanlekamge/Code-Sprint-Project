@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+      integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh"
+      crossorigin="anonymous"
+    />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" type="text/css" href="css/styles.css">
+    <link rel="stylesheet" href="style.css">
+    <title>Document</title>
+  </head>
+  <body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <a class="navbar-brand" href="#">Smart Baking</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+      
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+          <ul class="navbar-nav mr-auto">
+            <li class="nav-item active">
+              <a class="nav-link" href="index.php">Home <span class="sr-only">(current)</span></a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#">About</a>
+            </li>
+          </ul>
+
+          <ul class="navbar-nav">
+            
+            <li class="nav-item signup" id="signup">
+                <a class="nav-link" href="register.php">Log Out</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="login.php">Log in</a>
+            </li>
+          </ul>
+      </nav>
+      <div class="container">
+
+
+
+      <div class="wrap">
+    <div class="task-list">
+      <ul>
+
+      <?php 
+        require("includes/connect.php");
+
+        $SQL = "SELECT * FROM tasks ORDER BY date ASC, time ASC";
+        $exeSQL=mysqli_query($conn, $SQL) or die (mysqli_error());
+
+        $numrows = mysqli_num_rows($exeSQL);
+
+        if($numrows>0){
+          while( $row = mysqli_fetch_array( $exeSQL ) ){
+
+            $task_id = $row['id'];
+            $task_name = $row['task'];
+
+            echo '<li>
+                <span>'.$task_name.'</span>
+                <img id="'.$task_id.'" class="delete-button" width="10px" src="images/close.svg" />
+                </li>';
+          }
+        }
+
+      ?>
+        
+      </ul>
+    </div>
+    <form class="add-new-task" autocomplete="off">
+      <input type="text" name="new-task" placeholder="Add a new item..." />
+    </form>
+  </div><!-- #wrap -->
